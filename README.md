@@ -2,7 +2,8 @@
 Describes basics of pytest python testing framework.
 
 ## Table of contents
-- [Chapter one. Mastering test(s)](#chapter-one)
+All home works from every chapter will be located in it's `test_home.py` file.
+- [Chapter one. Master test(s)](#chapter-one)
   - [Install pytest](#install-pytest)
   - [Structure and syntax](#structure-and-syntax)
   - [Basic test sample](#basic-test-run)
