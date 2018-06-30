@@ -11,7 +11,8 @@ All home works from every chapter will be located in it's `test_home.py` file.
   - [Run tests](#run-test(s))
   - [Asserts](#asserts)
   - [Markers](#markers)
-  - [Run every of marker](#run-every-marker)
+  - [Run every marker](#run-every-marker)
+  - [Additional materials](#additional-materials-for-chapter-one)
 - [Chapter two (use fixtures)](#chapter-two-(use-fixtures))
   - [Basic fixtures](#basic-fixtures)
   - [Run basic fixtures](#run-basic-fixtures)
@@ -19,6 +20,7 @@ All home works from every chapter will be located in it's `test_home.py` file.
   - [Run scope of fixtures](#run-scope-of-fixtures)
   - [Conftest fixture](#conftest-fixture)
   - [Run conftest fixture](#run-conftest-fixture)
+  - [Additional materials](#a)
 - [Chapter three (write plugins)](#chapter-three-(write-plugins))
   - [Write plugin](#write-plugin)
   - [Use plugin](#use-plugin)
@@ -30,6 +32,7 @@ All home works from every chapter will be located in it's `test_home.py` file.
   - [Run tests with custom parameters](#run-tests-with-custom-parameters)
   - [Write hooks](#write-hooks)
   - [Run tests with hooks](#run-tests-with-hooks)
+  - [Additional materials](#)
 - [Contributing](#contributing)
 
 ## Chapter one (master tests)
@@ -167,6 +170,12 @@ def test_own_marker_length() -> None:
 # Run test with my own marker
 ~/pytest-bootcamp/chapter_one pytest test_markers.py -v -m own_marker
 ```
+### Additional materials for chapter one
+- [https://docs.pytest.org/en/latest/contents.html](https://docs.pytest.org/en/latest/contents.html)
+- [https://docs.pytest.org/en/latest/getting-started.html](https://docs.pytest.org/en/latest/getting-started.html)
+- [https://docs.pytest.org/en/latest/assert.html](https://docs.pytest.org/en/latest/assert.html)
+- [https://docs.pytest.org/en/latest/mark.html#mark](https://docs.pytest.org/en/latest/mark.html#mark)
+
 ## Chapter two (use fixtures)
 This chapter consists basics of pytest fixtures usage.
 ### Basic fixtures
@@ -334,6 +343,10 @@ def test_len_square_list(num: int) -> None:
 # See `conftest.py` module as a fixture for `test_square.py` test module
 ~/pytest-bootcamp/chapter_two pytest --fixtures test_square.py
 ```
+### Additional metarials from chapter two
+- [https://docs.pytest.org/en/3.5.0/fixture.html](https://docs.pytest.org/en/3.5.0/fixture.html)
+- [https://docs.pytest.org/en/latest/example/simple.html](https://docs.pytest.org/en/latest/example/simple.html)
+
 ## Chapter three (write plugins)
 ### Write plugin
 ```python
@@ -609,6 +622,14 @@ def test_python_version() -> None:
 # Skip tests with `system` pytest marker
 ~/pytest-bootcamp/chapter_three pytest --skip-marker system -rs
 ```
+### Additional metarials from chapter three
+- [https://docs.pytest.org/en/latest/writing_plugins.html](https://docs.pytest.org/en/latest/writing_plugins.html)
+- [https://docs.pytest.org/en/latest/plugins.html](https://docs.pytest.org/en/latest/plugins.html)
+- [https://docs.pytest.org/en/latest/example/simple.html](https://docs.pytest.org/en/latest/example/simple.html)
+- [https://docs.pytest.org/en/latest/writing_plugins.html#writing-hook-functions](https://docs.pytest.org/en/latest/writing_plugins.html#writing-hook-functions)
+- [https://pytest.readthedocs.io/en/2.7.3/plugins_index/index.html](https://pytest.readthedocs.io/en/2.7.3/plugins_index/index.html)
+- [http://pytest-bdd.readthedocs.io/en/latest/](http://pytest-bdd.readthedocs.io/en/latest/)
+
 ## Contributing
 
 ### Setup
