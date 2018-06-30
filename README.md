@@ -1,4 +1,5 @@
 # Pytest bootcamp
+My own implementation of pytest bootcamp project is aimed on helping to comprehend a `pytest` framework by newcomers.
 Describes basics of pytest python testing framework.
 
 ## Table of contents
@@ -19,6 +20,16 @@ All home works from every chapter will be located in it's `test_home.py` file.
   - [Conftest fixture](#conftest-fixture)
   - [Run conftest fixture](#run-conftest-fixture)
 - [Chapter three (write plugins)](#chapter-three-(write-plugins))
+  - [Write plugin](#write-plugin)
+  - [Use plugin](#use-plugin)
+  - [Run test with plugin](#run-tests-with-plugin)
+  - [Install external plugin](#install-external-plugin)
+  - [Write test with pytest-bdd](#write-test-with-pytest-bdd)
+  - [Run test with pytest-bdd plugin](#run-test-with-pytest-bdd-plugin)
+  - [Add custom parameters](#add-custom-parameters)
+  - [Run tests with custom parameters](#run-tests-with-custom-parameters)
+  - [Write hooks](#write-hooks)
+  - [Run tests with hooks](#run-tests-with-hooks)
 - [Contributing](#contributing)
 
 ## Chapter one (master tests)
@@ -324,6 +335,280 @@ def test_len_square_list(num: int) -> None:
 ~/pytest-bootcamp/chapter_two pytest --fixtures test_square.py
 ```
 ## Chapter three (write plugins)
+### Write plugin
+```python
+# plugin.py
+
+import pytest
+from typing import Iterable
+
+
+@pytest.fixture(scope='module')
+def rng() -> Iterable[int]:
+    return range(5)
+```
+### Use plugin
+```python
+# load plugin in conftest.py
+pytest_plugins = 'plugin'
+
+# operations.py
+from typing import Iterable
+
+
+def total(rng: Iterable[int]) -> int:
+    return sum(rng)
+
+
+def count(rng: Iterable[int]) -> int:
+    return len(rng)
+
+# test_operations.py
+  
+from typing import Iterable
+from chapter_three.operation import total, count
+
+pytest_plugins = 'plugin'  # load plugin if conftest.py above is NOT configured
+
+
+def test_total(rng: Iterable[int]) -> None:
+    assert total(rng) == 10
+
+
+def test_count(rng: Iterable[int]) -> None:
+    assert count(rng) == 5
+```
+### Run tests with plugin
+```bash
+# Run test_operations.py test module
+~/pytest-bootcamp/chapter_two pytest -v test_operations.py
+```
+### Install external plugin
+```bash
+# Install pytest-bdd plugin with pip
+~/pytest-bootcamp/chapter_two pip install pytest-bdd
+```
+### Write test with pytest-bdd
+```gherkin
+# bucket_of_fruits.feature
+  
+Feature: A bucket of fruits
+ 
+Scenario: Counting fruits in a bucket
+    Given There are 9 fruits in a bucket
+    When I have 2 friends
+    And I give 3 fruits to my 1st friend
+    And I give 3 fruits to my 2nd friend
+    Then I should have 3 fruits for myself
+```
+```python
+# test_bucket_of_fruits.py
+
+from typing import Dict
+from pytest_bdd import scenario, given, when, then, parsers
+
+
+@scenario('bucket_of_fruits.feature', 'Counting fruits in a bucket')
+def test_bucket_of_fruits():
+    pass
+
+
+@given(parsers.parse('There are {amount:d} fruits in a bucket'))
+def initial_amount_of_fruits(amount: int) -> Dict[str, int]:
+    return {'fruits': amount}
+
+
+@when(parsers.parse('I have {amount:d} friends'))
+def amount_of_friends(amount: int) -> None:
+    assert amount == 2
+
+
+@when(parsers.parse('I give {amount:d} fruits to my 1st friend'))
+def give_fruits_to_1st_friend(initial_amount_of_fruits: Dict[str, int], amount: int) -> None:
+    initial_amount_of_fruits['fruits'] -= amount
+
+
+@when(parsers.parse('I give {amount:d} fruits to my 2nd friend'))
+def give_fruits_to_2st_friend(initial_amount_of_fruits: Dict[str, int], amount: int) -> None:
+    initial_amount_of_fruits['fruits'] -= amount
+
+
+@then(parsers.parse('I should have {amount:d} fruits for myself'))
+def amount_fruits_for_myself(initial_amount_of_fruits: Dict[str, int], amount: int) -> None:
+    assert initial_amount_of_fruits['fruits'] == amount
+```
+### Run test with pytest-bdd plugin
+```bash
+# Run test_bucket_of_fruits.py test module
+~/pytest-bootcamp/chapter_three pytest -vv --gherkin-terminal-reporter test_bucket_of_fruits.py
+```
+### Add custom parameters
+```python
+# checks.py
+import os
+
+
+def ping_host(host: str) -> int:
+    return os.system(f"ping {host} -c 1")
+
+# addoption_plugin.py
+import pytest
+from _pytest.config.argparsing import Parser
+from _pytest.fixtures import SubRequest
+
+
+def pytest_addoption(parser: Parser) -> None:
+    parser.addoption("--host", "-H",
+                     action="store",
+                     default="localhost",
+                     help="A host should be provided as a hostname (google.com) or ip address (172.217.13.238)")
+
+
+@pytest.fixture(scope="module")
+def host(request: SubRequest) -> str:
+    return request.config.getoption("--host")
+
+    
+# conftest.py
+pytest_plugins = 'chapter_three.basic_plugin', \
+                 'chapter_three.addoption_plugin'
+
+# test_checks.py
+from chapter_three.checks import ping_host
+
+
+def test_ping_host(host: str) -> None:
+    assert ping_host(host) == 0
+```
+### Run tests with custom parameters
+```bash
+# Check just created custom parameter (--host/-H should be provided)
+~/pytest-bootcamp/chapter_three pytest --help
+  
+# Run test_checks.py test module with custom parameter
+~/pytest-bootcamp/chapter_three pytest test_ping.py --host pytest.org
+```
+### Write hooks
+```python
+# hooks_plugin
+
+from typing import Callable, List
+import pytest
+from _pytest.fixtures import SubRequest
+from _pytest.config import Config
+from _pytest.config.argparsing import Parser
+from _pytest.python import Function
+
+
+@pytest.fixture
+def hello() -> Callable[..., str]:
+    def _hello(request: str = '') -> str:
+        if not request:
+            return "Hello !"
+        return "Hello {}!".format(request)
+    return _hello
+
+
+@pytest.fixture(params=["Brianna", "Andreas", "Floris"])
+def name(request: SubRequest) -> str:
+    return request.param
+
+
+def pytest_configure(config: Config) -> None:
+    """Enable verbose output when running tests. Simulate ``-v`` option in a command line."""
+
+    config.option.verbose = 1
+
+
+def pytest_report_header(config: Config) -> List[str]:
+    """Add information to test report header."""
+
+    if config.option.verbose > 0:
+        return ["Project: pytest-hooks", "Written by: Volodymyr Yahello"]
+
+
+def pytest_addoption(parser: Parser) -> None:
+    """Add custom parameters."""
+
+    parser.addoption("--skip-marker",
+                     "-S",
+                     action="store",
+                     default=None,
+                     help="skip test(s) with certain marker.")
+
+
+def pytest_runtest_setup(item: Function) -> None:
+    """Skip tests that belong to specific marker with ``--skip-marker`` cmd option."""
+
+    marker = item.config.getvalue("--skip-marker")
+    if marker in item.keywords:
+        pytest.skip(f"Skipping [@{marker}] pytest marker")
+
+# conftest.py
+pytest_plugins = 'chapter_three.basic_plugin', \
+                 'chapter_three.addoption_plugin', \
+                 'chapter_three.hooks_plugin'
+
+
+# test_hello_hooks.py
+from typing import Callable
+
+
+def test_hello_default(hello: Callable[..., str]) -> None:
+    assert hello() == "Hello !"
+
+
+def test_hello_name(hello: Callable[..., str], name: str) -> None:
+    assert hello(name) == "Hello {0}!".format(name)
+
+
+# test_dir
+import os
+import pytest
+from _pytest.fixtures import SubRequest
+
+
+@pytest.fixture(scope='module', autouse=True)
+def setup_dir(request: SubRequest) -> None:
+    os.mkdir('test-dir', mode=0o777)
+
+    def teardown_dir() -> None:
+        os.rmdir('test-dir-1')
+
+    request.addfinalizer(teardown_dir)
+
+
+@pytest.mark.dir
+def test_rename_dir() -> None:
+    os.rename('test-dir', 'test-dir-1')
+    assert os.path.basename('test-dir-1') == 'test-dir-1'
+
+
+@pytest.mark.dir
+def test_list_dir() -> None:
+    assert os.listdir('test-dir-1') == []
+    
+# test_system
+import sys
+import pytest
+
+
+@pytest.mark.system
+def test_platform() -> None:
+    assert sys.platform == 'darwin'
+
+
+@pytest.mark.system
+def test_python_version() -> None:
+    assert sys.version_info[:3] == (3, 7, 0)
+```
+### Run tests with hooks
+```bash
+~/pytest-bootcamp/chapter_three pytest --skip-marker dir -rs
+  
+# Skip tests with `system` pytest marker
+~/pytest-bootcamp/chapter_three pytest --skip-marker system -rs
+```
 ## Contributing
 
 ### Setup
