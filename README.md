@@ -4,7 +4,7 @@ Describes basics of pytest python testing framework.
 
 ## Table of contents
 All home works from every chapter will be located in it's `test_home.py` file.
-- [First (master tests)](#chapter-one-(master-tests))
+- [First (master tests)](#first-(master-tests))
   - [Install pytest](#install-pytest)
   - [Structure and syntax](#structure-and-syntax)
   - [Basic test sample](#basic-test-run)
@@ -13,15 +13,15 @@ All home works from every chapter will be located in it's `test_home.py` file.
   - [Markers](#markers)
   - [Run every marker](#run-every-marker)
   - [Additional materials](#additional-materials-for-chapter-one)
-- [Second (use fixtures)](#chapter-two-(use-fixtures))
+- [Second (use fixtures)](#second-(use-fixtures))
   - [Basic fixtures](#basic-fixtures)
   - [Run basic fixtures](#run-basic-fixtures)
   - [Scope of fixtures](#scope-of-fixtures)
   - [Run scope of fixtures](#run-scope-of-fixtures)
   - [Conftest fixture](#conftest-fixture)
   - [Run conftest fixture](#run-conftest-fixture)
-  - [Additional materials](#a)
-- [Third (write plugins)](#chapter-three-(write-plugins))
+  - [Additional materials](#additional-metarials-from-chapter-two)
+- [Third (write plugins)](#third-(write-plugins))
   - [Write plugin](#write-plugin)
   - [Use plugin](#use-plugin)
   - [Run test with plugin](#run-tests-with-plugin)
@@ -32,10 +32,10 @@ All home works from every chapter will be located in it's `test_home.py` file.
   - [Run tests with custom parameters](#run-tests-with-custom-parameters)
   - [Write hooks](#write-hooks)
   - [Run tests with hooks](#run-tests-with-hooks)
-  - [Additional materials](#)
+  - [Additional materials](#additional-metarials-from-chapter-three)
 - [Contributing](#contributing)
 
-## Chapter one (master tests)
+## First (master tests)
 This chapter consists basics of pytest usage.
 ### Install pytest
 ```bash
@@ -176,7 +176,7 @@ def test_own_marker_length() -> None:
 - [https://docs.pytest.org/en/latest/assert.html](https://docs.pytest.org/en/latest/assert.html)
 - [https://docs.pytest.org/en/latest/mark.html#mark](https://docs.pytest.org/en/latest/mark.html#mark)
 
-## Chapter two (use fixtures)
+## Second (use fixtures)
 This chapter consists basics of pytest fixtures usage.
 ### Basic fixtures
 ```python
@@ -347,7 +347,7 @@ def test_len_square_list(num: int) -> None:
 - [https://docs.pytest.org/en/3.5.0/fixture.html](https://docs.pytest.org/en/3.5.0/fixture.html)
 - [https://docs.pytest.org/en/latest/example/simple.html](https://docs.pytest.org/en/latest/example/simple.html)
 
-## Chapter three (write plugins)
+## Third (write plugins)
 ### Write plugin
 ```python
 # plugin.py
