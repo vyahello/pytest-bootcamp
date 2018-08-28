@@ -1,4 +1,4 @@
-from chapter_two.square import square_list
+from second.square import square_list
 
 
 def test_square_list(num: int) -> None:

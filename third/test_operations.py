@@ -1,5 +1,5 @@
 from typing import Iterable
-from chapter_three.operation import total, count
+from third.operation import total, count
 
 
 def test_total(rng: Iterable[int]) -> None:

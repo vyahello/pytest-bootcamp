@@ -1,5 +1,5 @@
 import pytest
-from chapter_one.operation import to_int
+from first.operation import to_int
 
 
 def test_to_int() -> None:

@@ -11,4 +11,4 @@ Prerequisite:
  - Install `requests` package with `pip install requests` from the shell interface
 """
 
-from chapter_three.response import http_response_status_code
+from third.response import http_response_status_code

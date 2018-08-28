@@ -1,6 +1,6 @@
 import pytest
 import sys
-from chapter_one.operation import length
+from first.operation import length
 
 
 @pytest.mark.skip(reason="I just want to skip this test.")

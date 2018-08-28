@@ -1,4 +1,4 @@
-from chapter_one.operation import increment
+from first.operation import increment
 
 
 def setup() -> None:

@@ -4,7 +4,7 @@ Describes basics of pytest python testing framework.
 
 ## Table of contents
 All home works from every chapter will be located in it's `test_home.py` file.
-- [Chapter one (master tests)](#chapter-one-(master-tests))
+- [First (master tests)](#chapter-one-(master-tests))
   - [Install pytest](#install-pytest)
   - [Structure and syntax](#structure-and-syntax)
   - [Basic test sample](#basic-test-run)
@@ -13,7 +13,7 @@ All home works from every chapter will be located in it's `test_home.py` file.
   - [Markers](#markers)
   - [Run every marker](#run-every-marker)
   - [Additional materials](#additional-materials-for-chapter-one)
-- [Chapter two (use fixtures)](#chapter-two-(use-fixtures))
+- [Second (use fixtures)](#chapter-two-(use-fixtures))
   - [Basic fixtures](#basic-fixtures)
   - [Run basic fixtures](#run-basic-fixtures)
   - [Scope of fixtures](#scope-of-fixtures)
@@ -21,7 +21,7 @@ All home works from every chapter will be located in it's `test_home.py` file.
   - [Conftest fixture](#conftest-fixture)
   - [Run conftest fixture](#run-conftest-fixture)
   - [Additional materials](#a)
-- [Chapter three (write plugins)](#chapter-three-(write-plugins))
+- [Third (write plugins)](#chapter-three-(write-plugins))
   - [Write plugin](#write-plugin)
   - [Use plugin](#use-plugin)
   - [Run test with plugin](#run-tests-with-plugin)
@@ -40,10 +40,10 @@ This chapter consists basics of pytest usage.
 ### Install pytest
 ```bash
 # Install latest pytest dependencies
-~/pytest-bootcamp/chapter_one pip install -U pytest
+~/pytest-bootcamp/first pip install -U pytest
   
 # Check installed pytest version
-~/pytest-bootcamp/chapter_one pytest --version
+~/pytest-bootcamp/first pytest --version
 ```
 ### Structure and syntax
 ```python
@@ -69,22 +69,22 @@ def test_increment() -> None:
 ### Run test(s)
 ```bash
 # Basic test run
-~/pytest-bootcamp/chapter_one pytest test_basic.py
+~/pytest-bootcamp/first pytest test_basic.py
   
 # Run test in verbose mode
-~/pytest-bootcamp/chapter_one pytest test_basic.py -v
+~/pytest-bootcamp/first pytest test_basic.py -v
   
 # Run test in quite mode
-~/pytest-bootcamp/chapter_one pytest test_basic.py -q
+~/pytest-bootcamp/first pytest test_basic.py -q
  
 # Run specific test function in a test module
-~/pytest-bootcamp/chapter_one pytest test_basic.py::test_increment
+~/pytest-bootcamp/first pytest test_basic.py::test_increment
   
 # Run all tests in current directory and it's subdirectories
-~/pytest-bootcamp/chapter_one pytest
+~/pytest-bootcamp/first pytest
   
 # More pytest options
-~/pytest-bootcamp/chapter_one pytest --help
+~/pytest-bootcamp/first pytest --help
 ```
 ### Asserts
 ```python
@@ -153,22 +153,22 @@ def test_own_marker_length() -> None:
 ### Run every marker
 ```bash
 # Run all markers
-~/pytest-bootcamp/chapter_one pytest test_markers.py -v
+~/pytest-bootcamp/first pytest test_markers.py -v
   
 # Run skip tests
-~/pytest-bootcamp/chapter_one pytest test_markers.py -v -m skip
+~/pytest-bootcamp/first pytest test_markers.py -v -m skip
   
 # Run skipif tests
-~/pytest-bootcamp/chapter_one pytest test_markers.py -v -m skipif
+~/pytest-bootcamp/first pytest test_markers.py -v -m skipif
   
 # Run expected failure tests
-~/pytest-bootcamp/chapter_one pytest test_markers.py -v -m xfail
+~/pytest-bootcamp/first pytest test_markers.py -v -m xfail
   
 # Run parametrize tests
-~/pytest-bootcamp/chapter_one pytest test_markers.py -v -m parametrize
+~/pytest-bootcamp/first pytest test_markers.py -v -m parametrize
   
 # Run test with my own marker
-~/pytest-bootcamp/chapter_one pytest test_markers.py -v -m own_marker
+~/pytest-bootcamp/first pytest test_markers.py -v -m own_marker
 ```
 ### Additional materials for chapter one
 - [https://docs.pytest.org/en/latest/contents.html](https://docs.pytest.org/en/latest/contents.html)
@@ -180,7 +180,7 @@ def test_own_marker_length() -> None:
 This chapter consists basics of pytest fixtures usage.
 ### Basic fixtures
 ```python
-from chapter_one.operation import increment
+from first.operation import increment
 
 
 def setup() -> None:
@@ -225,7 +225,7 @@ class TestFixtures:
 ### Run basic fixtures
 ```bash
 # Run all basic fixtures
-~/pytest-bootcamp/chapter_two pytest test_basic_fixtures.py -s -v
+~/pytest-bootcamp/second pytest test_basic_fixtures.py -s -v
 ```
 ### Scope of fixtures
 ```python
@@ -301,10 +301,10 @@ class TestTwo:
 ### Run scope of fixtures
 ```bash
 # Run all extended fixtures
-~/pytest-bootcamp/chapter_two pytest test_extended_fixtures.py -s -v
+~/pytest-bootcamp/second pytest test_extended_fixtures.py -s -v
   
 # See all available fixtures for `test_extended_fixtures.py` module
-~/pytest-bootcamp/chapter_two pytest --fixtures test_extended_fixtures.py
+~/pytest-bootcamp/second pytest --fixtures test_extended_fixtures.py
 
 ```
 ### Conftest fixture
@@ -325,7 +325,7 @@ def square_list(n: int) -> List[int]:
     return [i ** 2 for i in range(1, n)]
 
 # test_square.py module
-from chapter_two.square import square_list
+from second.square import square_list
 
 
 def test_square_list(num: int) -> None:
@@ -338,10 +338,10 @@ def test_len_square_list(num: int) -> None:
 ### Run conftest fixture
 ```bash
 # Run `contest.py` fixture
-~/pytest-bootcamp/chapter_two pytest test_square.py -s -v
+~/pytest-bootcamp/second pytest test_square.py -s -v
   
 # See `conftest.py` module as a fixture for `test_square.py` test module
-~/pytest-bootcamp/chapter_two pytest --fixtures test_square.py
+~/pytest-bootcamp/second pytest --fixtures test_square.py
 ```
 ### Additional metarials from chapter two
 - [https://docs.pytest.org/en/3.5.0/fixture.html](https://docs.pytest.org/en/3.5.0/fixture.html)
@@ -379,7 +379,7 @@ def count(rng: Iterable[int]) -> int:
 # test_operations.py
   
 from typing import Iterable
-from chapter_three.operation import total, count
+from third.operation import total, count
 
 pytest_plugins = 'plugin'  # load plugin if conftest.py above is NOT configured
 
@@ -394,12 +394,12 @@ def test_count(rng: Iterable[int]) -> None:
 ### Run tests with plugin
 ```bash
 # Run test_operations.py test module
-~/pytest-bootcamp/chapter_two pytest -v test_operations.py
+~/pytest-bootcamp/second pytest -v test_operations.py
 ```
 ### Install external plugin
 ```bash
 # Install pytest-bdd plugin with pip
-~/pytest-bootcamp/chapter_two pip install pytest-bdd
+~/pytest-bootcamp/second pip install pytest-bdd
 ```
 ### Write test with pytest-bdd
 ```gherkin
@@ -453,7 +453,7 @@ def amount_fruits_for_myself(initial_amount_of_fruits: Dict[str, int], amount: i
 ### Run test with pytest-bdd plugin
 ```bash
 # Run test_bucket_of_fruits.py test module
-~/pytest-bootcamp/chapter_three pytest -vv --gherkin-terminal-reporter test_bucket_of_fruits.py
+~/pytest-bootcamp/third pytest -vv --gherkin-terminal-reporter test_bucket_of_fruits.py
 ```
 ### Add custom parameters
 ```python
@@ -483,11 +483,11 @@ def host(request: SubRequest) -> str:
 
     
 # conftest.py
-pytest_plugins = 'chapter_three.basic_plugin', \
-                 'chapter_three.addoption_plugin'
+pytest_plugins = 'third.basic_plugin', \
+                 'third.addoption_plugin'
 
 # test_checks.py
-from chapter_three.checks import ping_host
+from third.checks import ping_host
 
 
 def test_ping_host(host: str) -> None:
@@ -496,10 +496,10 @@ def test_ping_host(host: str) -> None:
 ### Run tests with custom parameters
 ```bash
 # Check just created custom parameter (--host/-H should be provided)
-~/pytest-bootcamp/chapter_three pytest --help
+~/pytest-bootcamp/third pytest --help
   
 # Run test_checks.py test module with custom parameter
-~/pytest-bootcamp/chapter_three pytest test_ping.py --host pytest.org
+~/pytest-bootcamp/third pytest test_ping.py --host pytest.org
 ```
 ### Write hooks
 ```python
@@ -558,9 +558,9 @@ def pytest_runtest_setup(item: Function) -> None:
         pytest.skip(f"Skipping [@{marker}] pytest marker")
 
 # conftest.py
-pytest_plugins = 'chapter_three.basic_plugin', \
-                 'chapter_three.addoption_plugin', \
-                 'chapter_three.hooks_plugin'
+pytest_plugins = 'third.basic_plugin', \
+                 'third.addoption_plugin', \
+                 'third.hooks_plugin'
 
 
 # test_hello_hooks.py
@@ -617,10 +617,10 @@ def test_python_version() -> None:
 ```
 ### Run tests with hooks
 ```bash
-~/pytest-bootcamp/chapter_three pytest --skip-marker dir -rs
+~/pytest-bootcamp/third pytest --skip-marker dir -rs
   
 # Skip tests with `system` pytest marker
-~/pytest-bootcamp/chapter_three pytest --skip-marker system -rs
+~/pytest-bootcamp/third pytest --skip-marker system -rs
 ```
 ### Additional metarials from chapter three
 - [https://docs.pytest.org/en/latest/writing_plugins.html](https://docs.pytest.org/en/latest/writing_plugins.html)
@@ -632,12 +632,11 @@ def test_python_version() -> None:
 
 ## Contributing
 
-### Setup
 - clone the repository
 - configure Git for the first time after cloning with your name and email
   ```bash
   git config --local user.name "Volodymyr Yahello"
-  git config --local user.email "vjagello93@gmail.com"
+  git config --local user.email "vyahello@gmail.com"
   ```
 - `python3.6` is required to run the code
 - run `pip install -r requirements.txt` to install all required packages

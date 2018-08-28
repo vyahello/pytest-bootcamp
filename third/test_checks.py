@@ -1,4 +1,4 @@
-from chapter_three.checks import ping_host
+from third.checks import ping_host
 
 
 def test_ping_host(host: str) -> None:
