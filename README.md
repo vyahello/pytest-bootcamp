@@ -1,5 +1,5 @@
 # Pytest bootcamp
-My own implementation of pytest bootcamp project is aimed on helping to comprehend a `pytest` framework by newcomers.
+Pytest bootcamp project is aimed on helping to comprehend a `pytest` framework by newcomers.
 Describes basics of pytest python testing framework.
 
 ## Table of contents
